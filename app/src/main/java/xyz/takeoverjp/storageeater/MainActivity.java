@@ -1,6 +1,7 @@
 package xyz.takeoverjp.storageeater;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.storage.StorageManager;
 import android.util.Log;
@@ -75,10 +76,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickEat(View v) {
+        if (writer != null && writer.getStatus() == AsyncTask.Status.RUNNING) {
+            Log.v(LOG_TAG, "Cancel button clicked");
+            writer.cancel(true);
+            ((TextView)v).setText("START EAT");
+            return;
+        }
         Log.v(LOG_TAG, "Eat button clicked");
         writer = new AsyncWriter(sm, filesDir, progressBar, loadingCircle,
                 freeSpaceView, usableSpaceView, allocatableBytesView);
         writer.execute();
+        ((TextView)v).setText("CANCEL EAT");
     }
 
     public void onClickClear(View v) {

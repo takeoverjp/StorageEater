@@ -82,8 +82,11 @@ public class AsyncWriter extends AsyncTask<Integer, Integer, Integer> {
                 for (int i = 0; i < 100; i++) {
                     for (int j = 0; j < 1024; j++) {
                         file.write(bytes);
+                        if (isCancelled()) {
+                            file.close();
+                            return null;
+                        }
                     }
-                    updateView();
                 }
 
             } catch (IOException e) {
@@ -101,6 +104,14 @@ public class AsyncWriter extends AsyncTask<Integer, Integer, Integer> {
 
     @Override
     protected void onPostExecute(Integer result) {
+        mTimer.cancel();
+        updateView();
+        loadingCircle.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    protected void onCancelled() {
+        mTimer.cancel();
         updateView();
         loadingCircle.setVisibility(View.INVISIBLE);
     }
