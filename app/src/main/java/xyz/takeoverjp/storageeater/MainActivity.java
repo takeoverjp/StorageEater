@@ -48,7 +48,10 @@ public class MainActivity extends AppCompatActivity {
 
         filesDir = getFilesDir();
         TextView filesDirView = (TextView)findViewById(R.id.filesDirValueView);
-        filesDirView.setText(filesDir.getAbsolutePath());
+        filesDirView.setText(getFilesDir().getAbsolutePath() + "\n"
+                + getCacheDir().getAbsolutePath() + "\n"
+                + getBaseContext().getExternalFilesDir(null).getAbsolutePath() + "\n"
+                + getBaseContext().getExternalCacheDir().getAbsolutePath());
 
         progressBar = (ProgressBar)findViewById(R.id.progressBar);
         progressBar.setMax(100);
