@@ -1,6 +1,7 @@
 package xyz.takeoverjp.storageeater;
 
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.os.storage.StorageManager;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -10,6 +11,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class AsyncWriter extends AsyncTask<Integer, Integer, Integer> {
     private File dir;
@@ -19,6 +22,8 @@ public class AsyncWriter extends AsyncTask<Integer, Integer, Integer> {
     private TextView freeSpaceView;
     private TextView usableSpaceView;
     private TextView allocatableBytesView;
+    private Timer mTimer = null;
+    private Handler mHandler = new Handler();
 
     public AsyncWriter(StorageManager sm, File dir, ProgressBar progressBar, ProgressBar loadingCircle,
                        TextView freeSpaceView, TextView usableSpaceView, TextView allocatableBytesView) {
@@ -50,6 +55,19 @@ public class AsyncWriter extends AsyncTask<Integer, Integer, Integer> {
     @Override
     protected void onPreExecute() {
         loadingCircle.setVisibility(View.VISIBLE);
+
+        mTimer = new Timer(true);
+        mTimer.schedule(new TimerTask(){
+            @Override
+            public void run() {
+                mHandler.post( new Runnable() {
+                    @Override
+                    public void run() {
+                        updateView();
+                    }
+                });
+            }
+        }, 1000, 1000);
     }
 
     @Override
