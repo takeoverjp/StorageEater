@@ -79,17 +79,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickEat(View v) {
+        Log.v(LOG_TAG, "Eat button clicked");
         if (writer != null && writer.getStatus() == AsyncTask.Status.RUNNING) {
-            Log.v(LOG_TAG, "Cancel button clicked");
-            writer.cancel(true);
-            ((TextView)v).setText("START EAT");
+            Log.v(LOG_TAG, "Already running");
+            writer.cancel(false);
             return;
         }
-        Log.v(LOG_TAG, "Eat button clicked");
         writer = new AsyncWriter(sm, filesDir, progressBar, loadingCircle,
-                freeSpaceView, usableSpaceView, allocatableBytesView);
+                freeSpaceView, usableSpaceView, allocatableBytesView, (TextView)v);
         writer.execute();
-        ((TextView)v).setText("CANCEL EAT");
     }
 
     public void onClickClear(View v) {

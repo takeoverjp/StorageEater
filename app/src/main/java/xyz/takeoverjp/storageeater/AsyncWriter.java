@@ -22,11 +22,13 @@ public class AsyncWriter extends AsyncTask<Integer, Integer, Integer> {
     private TextView freeSpaceView;
     private TextView usableSpaceView;
     private TextView allocatableBytesView;
+    private TextView startButtonView;
     private Timer mTimer = null;
     private Handler mHandler = new Handler();
 
     public AsyncWriter(StorageManager sm, File dir, ProgressBar progressBar, ProgressBar loadingCircle,
-                       TextView freeSpaceView, TextView usableSpaceView, TextView allocatableBytesView) {
+                       TextView freeSpaceView, TextView usableSpaceView, TextView allocatableBytesView,
+                       TextView startButtonView) {
         super();
         this.sm = sm;
         this.dir = dir;
@@ -35,6 +37,7 @@ public class AsyncWriter extends AsyncTask<Integer, Integer, Integer> {
         this.freeSpaceView = freeSpaceView;
         this.usableSpaceView = usableSpaceView;
         this.allocatableBytesView = allocatableBytesView;
+        this.startButtonView = startButtonView;
     }
 
     private void updateView () {
@@ -54,6 +57,7 @@ public class AsyncWriter extends AsyncTask<Integer, Integer, Integer> {
 
     @Override
     protected void onPreExecute() {
+        startButtonView.setText("CANCEL EAT");
         loadingCircle.setVisibility(View.VISIBLE);
 
         mTimer = new Timer(true);
@@ -107,6 +111,7 @@ public class AsyncWriter extends AsyncTask<Integer, Integer, Integer> {
         mTimer.cancel();
         updateView();
         loadingCircle.setVisibility(View.INVISIBLE);
+        startButtonView.setText("START EAT");
     }
 
     @Override
@@ -114,5 +119,6 @@ public class AsyncWriter extends AsyncTask<Integer, Integer, Integer> {
         mTimer.cancel();
         updateView();
         loadingCircle.setVisibility(View.INVISIBLE);
+        startButtonView.setText("START EAT");
     }
 }
