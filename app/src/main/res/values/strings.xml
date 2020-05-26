@@ -2,7 +2,7 @@
     <string name="app_name">StorageEater</string>
     <string name="start_eat_button">START EAT</string>
     <string name="clear_button">CLEAR</string>
-    <string name="files_dir_title">Context#getFilesDir :\nContext#getCacheDir :\nContext#getFilesDir :\nContext#getExternalCacheDir :</string>
+    <string name="files_dir_title">Context#getFilesDir :\nContext#getCacheDir :\nContext#getExternalFilesDir :\nContext#getExternalCacheDir :</string>
     <string name="total_space_title">File#getTotalSpace :</string>
     <string name="free_space_title">File#getFreeSpace :</string>
     <string name="usable_space_title">File#getUsableSpace :</string>
